@@ -44,7 +44,7 @@ function tmhjeero_process_migration() {
 			// Generate a unique identifier:
 			$source_ref = get_post_meta($event->ID, '_wpt_source_ref', true);
 
-			// Replace 'ps' with 'e', then replace any remaining 'p' with 'e'.
+			// Replace 'ps' with '', then replace any remaining 'p' with 'e'.
 			$identifier = str_replace('ps', '', $source_ref);
 			$identifier = str_replace('p', 'e', $identifier);
 
