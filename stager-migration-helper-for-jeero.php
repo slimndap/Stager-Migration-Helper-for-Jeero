@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Stager Migration Helper for Jeero
  * Description: Prepares your site for migration from Theater for WordPress legacy importer extensions to Jeero, specifically for users of the Stager ticketing platform, by adding identifiers to previously imported events.
- * Version: 1.0
+ * Version: 1.1
  * Author: Jeroen Schmit
  */
 
@@ -41,8 +41,13 @@ function tmhjeero_process_migration() {
 		// Check if the event already has a reference.
 		$existing_ref = get_post_meta($event->ID, 'jeero/Theater_For_WordPress/stager_pushfeed/ref', true);
 		if (empty($existing_ref)) {
-			// Generate a unique identifier based on the event ID and add it as post meta.
-			$identifier = str_replace('p', 'e', get_post_meta($event->ID, '_wpt_source_ref', true));
+			// Generate a unique identifier:
+			$source_ref = get_post_meta($event->ID, '_wpt_source_ref', true);
+
+			// Replace 'ps' with 'e', then replace any remaining 'p' with 'e'.
+			$identifier = str_replace('ps', '', $source_ref);
+			$identifier = str_replace('p', 'e', $identifier);
+
 			update_post_meta($event->ID, 'jeero/Theater_For_WordPress/stager_pushfeed/ref', $identifier);
 			$updated++;
 		}
